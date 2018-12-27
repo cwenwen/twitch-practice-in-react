@@ -5,27 +5,24 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import GamePage from './GamePage';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      navs: [],
-      gameIds: [],
-      tab: 0,
-      page: {
-        title: 'Twitch Live Games',
-        streams: []
-      }
-    }
+export default class App extends Component {
+  static propTypes = {
+    navs: PropTypes.array,
+    gameIds: PropTypes.array,
+    currentTab: PropTypes.number,
+    currentStreams:PropTypes.array,
+    onChange: PropTypes.func
+  };
+
+  state = {
+    navs: [],
+    gameIds: [],
+    currentTab: 0,
+    currentStreams: []
   }
 
-  onNavChange = tab => {
-    this.setState({
-      tab,
-      page: {
-        title: this.state.navs[tab]
-      }
-    })
+  onNavChange = currentTab => {
+    this.setState({ currentTab });
   }
 
   getGames = () => {
@@ -36,7 +33,7 @@ class App extends Component {
     })
   }
 
-  getStreams = gameID => {
+  getCurrentStreams = gameID => {
     return axios.get(`https://api.twitch.tv/helix/streams?game_id=${gameID}&first=24`, {
       headers: {
         'Client-ID': 'jdsl3lgf1c8gcxi44u29sm30m015n3'
@@ -60,7 +57,7 @@ class App extends Component {
   componentDidMount() {
     let navs = [];
     let gameIds = [];
-    let streams = [];
+    let currentStreams = [];
     let userIds = [];
 
     this.getGames()
@@ -69,84 +66,72 @@ class App extends Component {
         navs.push(gameResponse.data.data[i].name);
         gameIds.push(gameResponse.data.data[i].id);
       }
-
       this.setState({
         navs,
-        gameIds,
+        gameIds
       });
-
-      return this.getStreams(gameIds[0]);
+      return this.getCurrentStreams(gameIds[0]);
     })
     .then(streamResponse => {
-      streams = streamResponse.data.data;
-      for (let i = 0; i < streams.length; i++) {
-        userIds.push(streams[i].user_id);
+      currentStreams = streamResponse.data.data;
+      for (let i = 0; i < currentStreams.length; i++) {
+        userIds.push(currentStreams[i].user_id);
       }
-      
       return this.getUsers(userIds);
     })
     .then(userResponse => {
       const users = userResponse.data.data;
       for (let i = 0; i < users.length; i++) {
-        streams[i].userInfo = users[i];
-        streams[i].url = `https://www.twitch.tv/${users[i].login}`
+        currentStreams[i].userInfo = users[i];
+        currentStreams[i].url = `https://www.twitch.tv/${users[i].login}`
       }
-      this.setState({
-        page: {
-          title: navs[0],
-          streams
-        }
-      })
+      this.setState({ currentStreams });
     })
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { tab, navs } = this.state;
+    const { currentTab } = this.state;
     const gameIds = [...this.state.gameIds];
-    let streams = [];
+    let currentStreams = [];
     let userIds = [];
 
-    if (prevState.tab !== this.state.tab) {
-      this.getStreams(gameIds[tab])
+    if (prevState.currentTab !== currentTab) {
+      this.setState({ currentStreams });
+      this.getCurrentStreams(gameIds[currentTab])
       .then(streamResponse => {
-        streams = streamResponse.data.data;
-        for (let i = 0; i < streams.length; i++) {
-          userIds.push(streams[i].user_id);
+        currentStreams = streamResponse.data.data;
+        for (let i = 0; i < currentStreams.length; i++) {
+          userIds.push(currentStreams[i].user_id);
         }
         return this.getUsers(userIds);
       })
       .then(userResponse => {
         const users = userResponse.data.data;
         for (let i = 0; i < users.length; i++) {
-          streams[i].userInfo = users[i];
-          streams[i].url = `https://www.twitch.tv/${users[i].login}`
+          currentStreams[i].userInfo = users[i];
+          currentStreams[i].url = `https://www.twitch.tv/${users[i].login}`
         }
-        this.setState({
-          page: {
-            title: navs[tab],
-            streams
-          }
-        })
+        this.setState({ currentStreams });
       })
     }
   }
 
   render() {
-    const { navs, tab, page } = this.state;
+    const { navs, currentTab, currentStreams } = this.state;
     return (
-      <React.Fragment>
+      <div className='app'>
         <Navbar 
           navs={navs} 
-          tab={tab} 
+          currentTab={currentTab} 
           onChange={this.onNavChange}
         />
         <GamePage 
-          page={page}
+        navs={navs} 
+        currentTab={currentTab} 
+        currentStreams={currentStreams} 
         />
         <Footer />
-      </React.Fragment>
+      </div>
     );
   }
 }
-
-export default App;
