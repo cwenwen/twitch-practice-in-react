@@ -44,7 +44,10 @@ export default class App extends Component {
         currentStreams[i].userInfo = users[i];
         currentStreams[i].url = `https://www.twitch.tv/${users[i].login}`
       }
-      this.setState({ currentStreams });
+      if (currentStreams[0].game_id === gameIds[currentTab]) {
+        // prevent discordance when multiple ajax requests are made
+        this.setState({ currentStreams });
+      }
     })
   }
 
