@@ -1,14 +1,17 @@
 import React from 'react';
 
 const GamePage = props => {
-  const { navs, currentTab, currentStreams } = props;
+  const { navs, currentTab, currentStreams, error } = props;
+  const pageDescription = 'Top 24 popular live streams sorted by current viewers';
+  const errorMsg = 'Something went wrong, please try again later'
+
   return ( 
     <div>
       <h1 className="main--title mt-3 display-4 text-center">
-        {navs[currentTab]}
+        { error ? 'Oops!' : navs[currentTab] }
       </h1>
       <p className="main--subtitle lead text-center">
-        Top 24 popular live streams sorted by current viewers
+        { error ? errorMsg : pageDescription }
       </p>
       <div className='container'>
         <div className="row">
@@ -42,7 +45,7 @@ const GamePage = props => {
         </div>
       </div>
     </div>
-   );
+  );
 }
  
 export default GamePage;

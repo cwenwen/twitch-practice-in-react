@@ -5,20 +5,27 @@ import Footer from './Footer';
 import GamePage from './GamePage';
 import { getGames, getCurrentStreams, getUsers } from '../api';
 
-export default class App extends Component {
-  static propTypes = {
-    navs: PropTypes.array,
-    gameIds: PropTypes.array,
-    currentTab: PropTypes.number,
-    currentStreams:PropTypes.array,
-    onChange: PropTypes.func
-  };
+Navbar.prototype = {
+  navs: PropTypes.array,
+  currentTab: PropTypes.number,
+  onChange: PropTypes.func,
+  gameOrder: PropTypes.number
+};
 
+GamePage.prototype = {
+  navs: PropTypes.array,
+  currentTab: PropTypes.number,
+  currentStreams:PropTypes.array,
+  error: PropTypes.bool
+};
+
+export default class App extends Component {
   state = {
     navs: [],
     gameIds: [],
     currentTab: 0,
-    currentStreams: []
+    currentStreams: [],
+    error: false
   }
 
   onNavChange = currentTab => {
@@ -49,6 +56,12 @@ export default class App extends Component {
         this.setState({ currentStreams });
       }
     })
+    .catch(error => {
+      console.log(error);
+      this.setState({
+        error: true
+      });
+    })
   }
 
   componentDidMount() {
@@ -69,6 +82,12 @@ export default class App extends Component {
     .then(() => {
       this.updateStreams();
     })
+    .catch(error => {
+      console.log(error);
+      this.setState({
+        error: true
+      });
+    })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -79,7 +98,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { navs, currentTab, currentStreams } = this.state;
+    const { navs, currentTab, currentStreams, error } = this.state;
     return (
       <div className='app'>
         <Navbar 
@@ -91,6 +110,7 @@ export default class App extends Component {
           navs={navs} 
           currentTab={currentTab} 
           currentStreams={currentStreams} 
+          error={error}
         />
         <Footer />
       </div>
