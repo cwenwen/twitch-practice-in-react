@@ -1,23 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import GamePage from './GamePage';
 import { getGames, getCurrentStreams, getUsers } from '../api';
-
-Navbar.prototype = {
-  navs: PropTypes.array,
-  currentTab: PropTypes.number,
-  onChange: PropTypes.func,
-  gameOrder: PropTypes.number
-};
-
-GamePage.prototype = {
-  navs: PropTypes.array,
-  currentTab: PropTypes.number,
-  currentStreams:PropTypes.array,
-  error: PropTypes.bool
-};
 
 export default class App extends Component {
   state = {
