@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const GamePage = props => {
-  const { navs, currentTab, currentStreams, error } = props;
+  const { gameInfo, currentStreams, error } = props;
   const pageDescription = 'Top 24 popular live streams sorted by current viewers';
   const errorMsg = 'Something went wrong, please try again later'
 
   return ( 
     <div>
       <h1 className="main--title mt-3 display-4 text-center">
-        { error ? 'Oops!' : navs[currentTab] }
+        { error ? 'Oops!' : gameInfo }
       </h1>
       <p className="main--subtitle lead text-center">
         { error ? errorMsg : pageDescription }
@@ -50,8 +50,7 @@ const GamePage = props => {
 }
 
 GamePage.prototype = {
-  navs: PropTypes.array,
-  currentTab: PropTypes.number,
+  gameInfo: PropTypes.string,
   currentStreams:PropTypes.array,
   error: PropTypes.bool
 };

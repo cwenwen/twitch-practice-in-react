@@ -92,8 +92,7 @@ export default class App extends Component {
           onChange={this.onNavChange}
         />
         <GamePage 
-          navs={navs} 
-          currentTab={currentTab} 
+          gameInfo={navs[currentTab]}
           currentStreams={currentStreams} 
           error={error}
         />
