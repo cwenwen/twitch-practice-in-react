@@ -50,6 +50,17 @@ const instance = axios.create({
 export const getGames = () => instance.get('/games/top?first=5');
 ```
 
+When quickly changing games on navbar - making multiple ajax requests in a short time, it may result in incongruence of the title and the streams.  
+To prevent this:
+
+```js
+// Line 41, App.js
+
+if (currentStreams[0].game_id === gameIds[currentTab]) {
+  this.setState({ currentStreams });
+}
+```
+
 ## Built With
 
 - [Bootstrap](https://getbootstrap.com/) - The CSS framework used
