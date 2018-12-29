@@ -39,7 +39,7 @@ export default class App extends Component {
           currentStreams[i].url = `https://www.twitch.tv/${users[i].login}`;
         }
         if (currentStreams[0].game_id === gameIds[currentTab]) {
-          // prevent discordance when multiple ajax requests are made
+          // prevent incongruence when multiple ajax requests are made
           this.setState({ currentStreams });
         }
       })
