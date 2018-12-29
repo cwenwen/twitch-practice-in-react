@@ -55,13 +55,13 @@ const Navbar = props => {
   );
 };
 
-Navbar.prototype = {
+Navbar.propTypes = {
   navs: PropTypes.array,
   currentTab: PropTypes.number,
   onChange: PropTypes.func,
 };
 
-NavItem.prototype = {
+NavItem.propTypes = {
   navs: PropTypes.array,
   currentTab: PropTypes.number,
   onChange: PropTypes.func,

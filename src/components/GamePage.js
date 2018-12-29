@@ -66,7 +66,7 @@ const GamePage = props => {
   );
 };
 
-GamePage.prototype = {
+GamePage.propTypes = {
   gameInfo: PropTypes.string,
   currentStreams: PropTypes.array,
   error: PropTypes.bool,
