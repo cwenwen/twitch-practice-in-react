@@ -29,6 +29,7 @@ The main part of the page shows the most popular 24 live streams sorted by curre
 │   ├── index.css
 │   └── index.js
 ├── .babelrc
+├── .eslintignore
 ├── .eslintrc.js
 ├── .gitignore
 ├── index.html
