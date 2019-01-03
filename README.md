@@ -37,6 +37,22 @@ The main part of the page shows the most popular 24 live streams sorted by curre
 ├── webpack.config.js
 └── yarn.lock
 ```
+## Getting Started
+
+Cloning the repository:  
+```console
+git clone https://github.com/cwenwen/twitch-practice-in-react.git
+```
+
+Installing all dependencies for the project:  
+```console
+yarn install
+```
+
+Starting a server instance, listening on port 8080:  
+```console
+yarn dev
+```
 
 ## Codes
 
@@ -68,3 +84,7 @@ if (currentStreams[0].game_id === gameIds[currentTab]) {
 - [GitHub Pages](https://pages.github.com/) - The project been deployed to
 - [React](https://reactjs.org/)
 - [Webpack](https://webpack.js.org/) - To bundle the scripts
+
+## Improvement
+
+[Code review from Yoctol](https://hackmd.io/64UmENxTRcOq5pcFfjOVIg)
