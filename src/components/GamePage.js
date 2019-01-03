@@ -3,9 +3,9 @@ import React from 'react';
 
 const GamePage = props => {
   const { gameInfo, currentStreams, error } = props;
-  const pageDescription =
+  const PAGE_DESCRIPTION =
     'Top 24 popular live streams sorted by current viewers';
-  const errorMsg = 'Something went wrong, please try again later';
+  const ERROR_MESSAGE = 'Something went wrong, please try again later';
 
   return (
     <div>
@@ -13,7 +13,7 @@ const GamePage = props => {
         {error ? 'Oops!' : gameInfo}
       </h1>
       <p className="main--subtitle lead text-center">
-        {error ? errorMsg : pageDescription}
+        {error ? ERROR_MESSAGE : PAGE_DESCRIPTION}
       </p>
       <div className="container">
         <div className="row">
